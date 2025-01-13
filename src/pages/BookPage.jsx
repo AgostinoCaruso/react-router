@@ -1,37 +1,28 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { BooksContext } from "../context/BooksContext";
 
 function BookPage() {
-    const apiUrl = "http://localhost:3000";
 
     const { id } = useParams();
-    const [ book, setBook ] = useState(null);
-    useEffect(getData, [id]);
-    function getData() {
-        axios
-            .get(`${apiUrl}/books/${id}`)
-            .then((res) => {
-                console.log(res.data.item);
-                setBook(res.data.item);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+    const {currentBook, getBookById} = useContext(BooksContext);
+
+    useEffect(() =>{
+        getBookById(id);
+    }, [id]);
 
     return (
         <>
         <h1>Sono il libro: {id}</h1>
-        {book ? (
+        {currentBook ? (
             <div>
-                <h3>{book.title}</h3>
+                <h3>{currentBook.title}</h3>
                 <br />
-                <span>Status: {book.status === "PUBLISH" ? "published" : "unpublished"}</span>
+                <span>Status: {currentBook.status === "PUBLISH" || true ? "published" : "unpublished"}</span>
                 <br />
-                <span>Description: {book.longDescription}</span>
+                <span>Description: {currentBook.longDescription}</span>
                 <br />
-                <span>Page count: {book.pageCount}</span>
+                <span>Page count: {currentBook.pageCount}</span>
                 <br />
             </div>
         ) : (

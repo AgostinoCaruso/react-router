@@ -11,31 +11,27 @@ import AboutUs from './pages/aboutUs';
 import BookPage from './pages/BookPage';
 import PageNotFound from './pages/PageNotFound';
 
-import { BooksContext } from './context/BooksContext';
+import { BooksContext, BooksProvider } from './context/BooksContext';
 
 function App() {
 
-  const [books, setBooks] = useState([]);
-
   return (
-    <>
-      <BooksContext.Provider value={{books, setBooks}}>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<DefaultLayout />}>
-              <Route path='book'>
-                <Route index element={<BooksPage />} />
-                <Route path=":id" element={<BookPage />} />
-                <Route path="addBook" element={<FormPage />} />
-              </Route>
-              <Route path="contactus" element={<ContactUs />} />
-              <Route path="aboutus" element={<AboutUs />} />
+    <BooksProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<DefaultLayout />}>
+            <Route path='book'>
+              <Route index element={<BooksPage />} />
+              <Route path=":id" element={<BookPage />} />
+              <Route path="addBook" element={<FormPage />} />
             </Route>
-            <Route path='*' element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </BooksContext.Provider>
-    </>
+            <Route path="contactus" element={<ContactUs />} />
+            <Route path="aboutus" element={<AboutUs />} />
+          </Route>
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </BooksProvider>
   );
 }
 
