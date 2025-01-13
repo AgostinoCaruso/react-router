@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
 
 import axios from "axios";
 
+import { BooksContext } from "../context/BooksContext";
+
 const apiUrl = "http://localhost:3000";
 
 function BooksPage() {
 
-    const [books, setBooks] = useState([]);
-    const [search, setSearch] = useState("");
+    const {books, setBooks} = useContext(BooksContext);
 
     //axios call index
     const getData = () => {
